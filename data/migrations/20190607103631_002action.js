@@ -1,29 +1,29 @@
 
 exports.up = function(knex, Promise) {
-  return knex.schema.createTable('actions', tbl => {
-        tbl
+  return knex.schema.createTable( 'actions', tbl => {
+    tbl
         .increments();
-        tbl
+    tbl
         .text('description')
         .notNullable();
-        tbl
+    tbl
         .text('notes')
         .notNullable();
-        tbl
+    tbl
         .boolean('complete')
         .defaultTo(false)
         .notNullable();
-        tbl
+    tbl
         .integer('project_id')
         .unsigned()
         .references('id')
         .inTable('projects')
         .notNullable()
-        .onUpdate('CASCADE')
-        .onDelete('RESTRICT');
-  });
+        .onDelete('RESTRICT')
+        .onUpdate('CASCADE');
+  })
 };
 
 exports.down = function(knex, Promise) {
-  return knex.schema.dropTableIfExists('actions');
+  return knex.schema.dropTableIfExists('actions')
 };
