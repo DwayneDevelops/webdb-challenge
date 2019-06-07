@@ -35,7 +35,8 @@ router.get('/:id', async (req, res) => {
         if (!project) {
             res.status(404).json({ message: "The project with this ID could not be found" })
         } else {
-            res.status(200).json(project);
+            const actions = await db.find('actions')
+            res.status(200).json({project, actions});
         }
     } catch(error) {
         res.status(500).json({ message: "no no, not today...server error baby"})
