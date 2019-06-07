@@ -2,6 +2,7 @@ const express = require('express');
 const router = require('express').Router();
 
 const db = require('./projects-model');
+const dbActions = require('../Actions/actions-model')
 
 router.use(express.json());
 
@@ -35,7 +36,8 @@ router.get('/:id', async (req, res) => {
         if (!project) {
             res.status(404).json({ message: "The project with this ID could not be found" })
         } else {
-            const actions = await db.find('actions')
+            const actions = await dbActions.find('actions')
+            .where({ project_id: req.params.id })
             res.status(200).json({project, actions});
         }
     } catch(error) {
