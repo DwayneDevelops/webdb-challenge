@@ -6,7 +6,7 @@ const actionRouter = require('../Actions/actions-router');
 
 const server = express();
 
-server.use(helmet()),express.json();
+server.use(helmet());
 
 server.use('/api/projects', projectRouter);
 server.use('/api/actions', actionRouter);

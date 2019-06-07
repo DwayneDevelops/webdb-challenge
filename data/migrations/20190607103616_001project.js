@@ -10,7 +10,7 @@ exports.up = function(knex, Promise) {
         .text('description')
         .notNullable();
     tbl
-        .boolean('complete')
+        .boolean('completed')
         .defaultTo(false)
         .notNullable();
   });

@@ -1,23 +1,22 @@
+const express = require('express');
 const router = require('express').Router();
 
 const db = require('./actions-model');
 
-// router.post('/', (req, res) => {
-//     db.add(req.body)
-//     .then(action => {
-//         res.status(200).json(action);
-//     })
-//     .catch(err => {
-//         res.status(500).json({ message: "server error, could not add action"});
-//     });
-// });
+router.use(express.json());
 
 router.post('/', async (req, res) => {
-    const project = await db.add(req.body)
+    const action = await db.add(req.body);
+    const { description, notes, project_id } = req.body;
+
     try {
-        res.status(201).json(project);
+        if (!description || !notes || !project_id) {
+            res.status(404).json({ message: 'Please add a description, notes, and/or project ID and try again' });
+        } else {
+        res.status(201).json(action);
+        }
     } catch(error) {
-        res.status(500).json({ message: "server error, could not add project"});
+        res.status(500).json({ message: "server error, could not add action"});
     }
 });
 
@@ -36,12 +35,12 @@ router.get('/', async (req, res) => {
 
 router.get('/:id', async (req, res) => {
     const { id } = await req.params;
-    const project = await db.findById(id)
+    const action = await db.findById(id)
     try {
-        if (!project) {
-            res.status(404).json({ message: "The project with this ID could not be found" })
+        if (!action) {
+            res.status(404).json({ message: "The action with this ID could not be found" })
         } else {
-            res.status(200).json(project);
+            res.status(200).json(action);
         }
     } catch(error) {
         res.status(500).json({ message: "no no, not today...server error baby"})
