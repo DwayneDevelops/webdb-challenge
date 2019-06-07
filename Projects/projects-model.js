@@ -12,10 +12,16 @@ function find() {
     return db('projects');
 }
 
+// function findById(id) {
+//     return db('projects')
+//         .where({ id })
+//         .first();
+// }
+
 function findById(id) {
     return db('projects')
-        .where({ id })
-        .first();
+        .innerJoin('actions', 'project.id', 'actions.project_id')
+        .orderBy('actions.id');
 }
 
 function add(project) {
